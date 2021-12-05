@@ -38,7 +38,7 @@ def scrap():
       return jobsData;
       }
       """)
-      data.append(d)
+      data.extend(d)
       next =  page.locator("xpath=//a[contains(., 'nächste') or contains(., 'next')]")
       if next.count() > 0:
         next.first.click()
@@ -81,7 +81,7 @@ def scrap_en():
       return jobsData;
       }
       """)
-      data.append(d)
+      data.extend(d)
       next =  page.locator("xpath=//a[contains(., 'nächste') or contains(., 'next')]")
       if next.count() > 0:
         next.first.click()
