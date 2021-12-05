@@ -5,7 +5,10 @@ import subprocess
 p = Path("./ETL/jobs").resolve()
 jobs = list(p.iterdir())
 
+pprint(f"=== Running: 1_run_scrappers.py ===")
+
 for f in jobs:
   if f.is_file():
     if f.stem == "test":
+      pprint(f"Job: {f}")
       subprocess.run(["python", f])
