@@ -1,6 +1,8 @@
 from pprint import pprint
 from pathlib import Path
 import json
+from datetime import datetime
+#from datetime import strptime, strftime
 from playwright.sync_api import sync_playwright
 
 data_path = Path("./ETL/data").resolve()
@@ -21,9 +23,9 @@ def scrap():
     arr => { 
       let jobData = [];
       arr.forEach(e => {
-        let jobTitle = e.querySelectorAll("td.real_table_col1")[0].textContent.trim();
+        let jobTitle = e.querySelectorAll("td.real_table_col1 > a")[0].textContent.trim();
         let href = "https://recruiting.wu.ac.at/?" + e.querySelectorAll("td.real_table_col1 > a")[0].href.trim().split("?")[1];
-        let institute = e.querySelectorAll("td.real_table_col2")[0].textContent.trim()
+        let institute = e.querySelectorAll("td.real_table_col2")[0].textContent.trim();
         let deadline = null;
         jobData.push({ jobTitle, href, institute, deadline });
       });
@@ -57,9 +59,9 @@ def scrap_en():
     arr => { 
       let jobData = [];
       arr.forEach(e => {
-        let jobTitle = e.querySelectorAll("td.real_table_col1")[0].textContent.trim();
+        let jobTitle = e.querySelectorAll("td.real_table_col1 > a")[0].textContent.trim();
         let href = "https://recruiting.wu.ac.at/eng/?" + e.querySelectorAll("td.real_table_col1 > a")[0].href.trim().split("?")[1];
-        let institute = e.querySelectorAll("td.real_table_col2")[0].textContent.trim()
+        let institute = e.querySelectorAll("td.real_table_col2")[0].textContent.trim();
         let deadline = null;
         jobData.push({ jobTitle, href, institute, deadline });
       });
@@ -71,7 +73,8 @@ def scrap_en():
     for i in range(len(data)):
       page.goto(data[i].get("href"), wait_until="domcontentloaded")
       deadline = page.text_content("xpath=//li[contains(., 'Publizierung bis') or contains(., 'published till')]")
-      data[i]["deadline"] = deadline.split(":")[1].strip()
+      deadline = deadline.split(":")[1].strip()
+      data[i]["deadline"] = datetime.strptime(deadline, "%Y-%m-%d").strftime("%d.%m.%Y")
 
     browser.close()
   return data
