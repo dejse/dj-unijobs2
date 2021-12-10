@@ -4,6 +4,7 @@ import json
 
 pprint(f"=== Running: 2_create_big_json.py ===")
 
+# Files
 p = Path("./ETL/data").resolve()
 file = p / "_data.json"
 data = list()
@@ -12,6 +13,8 @@ if file.exists():
   pprint(f"Delete: {file.name}")
   file.unlink()
 
+# Run through each [uni].json
+# Create Big JSON File
 for f in p.iterdir():
   if f.is_file:
     pprint(f"Processing: {f.name}")
@@ -26,6 +29,7 @@ for f in p.iterdir():
       
       data.extend(JSON)
 
+# Write JSON File
 with file.open(mode="w+b") as f:
   data = json.dumps(data, ensure_ascii=False).encode("utf8")
   f.write(data)
