@@ -1,5 +1,6 @@
 import sqlite3
 import json
+import datetime
 from pathlib import Path 
 from pprint import pprint
 
@@ -34,18 +35,25 @@ c.executescript(
   """
 )
 pprint(f"# Sqlite: Rebuild jobs_uni table")
-
+#pprint(c.execute("select * from jobs_uni").fetchall())
 
 # Insert Jobs Data
+today = datetime.datetime.today().strftime("%Y-%m-%d")
+for e in data:
+  e["created_at"] = today
+  e["updated_at"] = today
+
 c.execute("delete from jobs_job")
 pprint(f"# Sqlite: Deleted Entries from jobs_job table")
 
 c.executemany(
   """
-  insert into jobs_job(title, href, institute, deadline, lang, uni_id) 
-  values (:jobTitle, :href, :institute, :deadline, :language, :uni);
+  insert into jobs_job(title, href, institute, deadline, lang, uni_id, created_at, updated_at) 
+  values (:jobTitle, :href, :institute, :deadline, :language, :uni, :created_at, :updated_at);
   """, data)
 pprint(f"# Sqlite: Inserted data into jobs_job")
 
 count = c.execute("select count(*) from jobs_job").fetchone()[0]
 pprint(f"# Sqlite: Rows in jobs_job: {count}")
+
+#pprint(c.execute("select * from jobs_job").fetchall())
