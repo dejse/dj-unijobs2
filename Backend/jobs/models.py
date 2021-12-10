@@ -23,14 +23,14 @@ class Uni(models.Model):
 
 class Job(models.Model):
   id = models.AutoField(primary_key=True)
-  title = models.CharField(max_length=300, unique=True)
-  href = models.URLField()
+  title = models.TextField()
+  href = models.URLField(max_length=1500)
   institute = models.TextField()
   deadline = models.CharField(max_length=10)
   uni = models.ForeignKey(Uni, to_field="short", default="NONE", on_delete=models.SET_DEFAULT)
-  lang = models.CharField(max_length=2, null=False)
-  created_at = models.DateTimeField(auto_now_add=True)
-  updated_at = models.DateTimeField(auto_now=True)
+  lang = models.CharField(max_length=2)
+  created_at = models.DateTimeField(null=True, auto_now_add=True)
+  updated_at = models.DateTimeField(null=True, auto_now=True)
 
   class Meta:
     indexes = [ models.Index(fields=["title"], name="idx_title" ) ]

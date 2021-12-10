@@ -20,9 +20,6 @@ c = sqlite3.connect(sqlite_path).cursor()
 count = c.execute("select count(*) from jobs_job").fetchone()[0]
 pprint(f"# Sqlite: Rows in jobs_job: {count}")
 
-c.execute("delete from jobs_job;")
-pprint(f"# Sqlite: Deleted Entries from jobs_job table")
-
 
 # Insert Unis Data
 c.executescript(
@@ -39,10 +36,16 @@ c.executescript(
 pprint(f"# Sqlite: Rebuild jobs_uni table")
 
 
-# # Insert Jobs Data
-# c.executemany(
-#     """
-#     insert into unijobs_job(id, title, href, institute, deadline, language, uuid, uni_id) 
-#     values (null, :jobTitle, :href, :institute, :iso_deadline, :lang, :uuid, :uni);
-#     """, data)
-# print(f"# Sqlite: Inserted into jobs")
+# Insert Jobs Data
+c.execute("delete from jobs_job")
+pprint(f"# Sqlite: Deleted Entries from jobs_job table")
+
+c.executemany(
+  """
+  insert into jobs_job(title, href, institute, deadline, lang, uni_id) 
+  values (:jobTitle, :href, :institute, :deadline, :language, :uni);
+  """, data)
+pprint(f"# Sqlite: Inserted data into jobs_job")
+
+count = c.execute("select count(*) from jobs_job").fetchone()[0]
+pprint(f"# Sqlite: Rows in jobs_job: {count}")
