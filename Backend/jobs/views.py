@@ -5,9 +5,6 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 
 # Create your views here.
-def hello(request):
-  return HttpResponse("Hello World")
-
 def index(request):
   jobs = Job.objects.filter(lang="de")
   paginator = Paginator(jobs, 50)

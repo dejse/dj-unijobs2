@@ -1,5 +1,11 @@
-<p>
+<form action="{% url 'jobs.index' %}" method="GET">
+  <input type="text" id="search" name="search" placeholder="z.B. Universitätsassistent Wien...">
+  <button type="submit" class="">🔍</button>
+</form>
+
+<div>
 {% for j in jobs %}
-  {{ j.title }}
+  <p>{{ j.title }}</p>
 {% endfor %}
-</p><br/>
+</div>
+<a href="">more</a>
