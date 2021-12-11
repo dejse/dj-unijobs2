@@ -16,7 +16,8 @@ with file.open(mode="r+b") as f:
   data = json.load(f)
 
 # DB Stuff
-c = sqlite3.connect(sqlite_path).cursor()
+con = sqlite3.connect(sqlite_path)
+c = con.cursor()
 
 count = c.execute("select count(*) from jobs_job").fetchone()[0]
 pprint(f"# Sqlite: Rows in jobs_job: {count}")
@@ -56,4 +57,8 @@ pprint(f"# Sqlite: Inserted data into jobs_job")
 count = c.execute("select count(*) from jobs_job").fetchone()[0]
 pprint(f"# Sqlite: Rows in jobs_job: {count}")
 
-#pprint(c.execute("select * from jobs_job").fetchall())
+# pprint(c.execute("select * from jobs_job").fetchall()[0])
+
+# Save, Close
+con.commit()
+con.close()
