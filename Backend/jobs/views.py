@@ -20,6 +20,7 @@ def search(request):
   if request.method == "GET":
     q = escape(request.GET.get("q", ""))
     if len(q) > 0: 
+      q = q.lower().split(" ")
       return HttpResponse("It works!")
     else: 
       return redirect(reverse("jobs.index")) 
