@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.http.response import HttpResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from .models import Job, Uni
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.utils.html import escape
 
 
 # Create your views here.
@@ -14,4 +17,10 @@ def index(request):
 
 
 def search(request):
+  if request.method == "GET":
+    q = escape(request.GET.get("q", ""))
+    if len(q) > 0: 
+      return HttpResponse("It works!")
+    else: 
+      return redirect(reverse("jobs.index")) 
   pass 
