@@ -1,5 +1,6 @@
 from pathlib import Path 
 from pprint import pprint
+from datetime import datetime
 import json
 
 pprint(f"=== Running: 2_create_big_json.py ===")
@@ -26,7 +27,8 @@ for f in p.iterdir():
       for d in JSON:
         d["uni"] = name 
         d["language"] = language
-      
+        d["iso"] = datetime.strptime(d["deadline"], "%d.%m.%Y").strftime("%Y-%m-%d")
+
       data.extend(JSON)
 
 # Write JSON File

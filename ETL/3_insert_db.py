@@ -50,7 +50,7 @@ pprint(f"# Sqlite: Deleted Entries from jobs_job table")
 c.executemany(
   """
   insert into jobs_job(title, href, institute, deadline, lang, uni_id, created_at, updated_at) 
-  values (:jobTitle, :href, :institute, :deadline, :language, :uni, :created_at, :updated_at);
+  values (:jobTitle, :href, :institute, :iso, :language, :uni, :created_at, :updated_at);
   """, data)
 pprint(f"# Sqlite: Inserted data into jobs_job")
 

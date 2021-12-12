@@ -26,7 +26,7 @@ class Job(models.Model):
   title = models.TextField()
   href = models.URLField(max_length=1500)
   institute = models.TextField()
-  deadline = models.CharField(max_length=10)
+  deadline = models.DateField(null=True)
   uni = models.ForeignKey(Uni, to_field="short", default="NONE", on_delete=models.SET_DEFAULT)
   lang = models.CharField(max_length=2)
   created_at = models.DateTimeField(null=True, auto_now_add=True)

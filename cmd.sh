@@ -4,3 +4,9 @@ env\Scripts\activate
 python ETL\1_run_scrappers.py
 python ETL\2_create_big_json.py
 python ETL\3_insert_db.py
+
+# Backend
+cd Backend 
+python manage.py runserver
+python manage.py makemigrations jobs
+python manage.py migrate
