@@ -5,6 +5,7 @@ from .models import Job, Uni
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.utils.html import escape
+from pprint import pprint
 
 
 # Create your views here.
@@ -17,11 +18,18 @@ def index(request):
 
 
 def search(request):
-  if request.method == "GET":
-    q = escape(request.GET.get("q", ""))
-    if len(q) > 0: 
-      q = q.lower().split(" ")
-      return HttpResponse("It works!")
-    else: 
-      return redirect(reverse("jobs.index")) 
-  pass 
+  q = escape(request.GET.get("q", "").strip())
+  search_params = q.lower().split(" ")
+  if len(q) > 0 and len(search_params) <= 3: 
+    qs = Job.objects.filter(lang="de").select_related("uni")
+    data = Job.objects.none()
+    for s in search_params:
+      data = data.union(qs.filter(
+        Q(institute__icontains=s) 
+        | Q(title__icontains=s)
+        | Q(uni__name_de__icontains=s) 
+      ))
+    data = data.order_by("deadline")
+    return render(request, "index.html", { "jobs": data })
+  else: 
+    return redirect(reverse("jobs.index"))
