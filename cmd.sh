@@ -10,3 +10,5 @@ cd Backend
 python manage.py runserver
 python manage.py makemigrations jobs
 python manage.py migrate
+
+pnpx tailwindcss -i Backend/static/css/styles.css -o Backend/static/css/tailwind.css --watch

@@ -4,24 +4,21 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>{% block title %}{% endblock %}</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/tailwind.css"/>
     <style>
-      nav {
-        background-color: var(--bs-gray-800); 
-      }
     </style>
   </head>
-  <body>
-    <nav class="navbar navbar-expand navbar-light">
-      <div class="container-fluid">
-        <a class="navbar-brand text-white" href="/">UniJobs</a>
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link">🇦🇹</a></li>
-          <li class="nav-item"><a class="nav-link">🇬🇧</a></li>
-        </ul>
-      </div>
-    </nav>
+  <body class="min-h-screen bg-gray-200">
+
+   <!-- Navigation -->
+   <hr class="h-1 border border-blue-500  bg-blue-500" />
+   <nav class="flex flex-row bg-gray-900 text-white justify-between h-12 py-2 px-4">
+     <h1 class="text-lg font-bold ani"><a href="/">UniJobs</a></h1>
+     <ul class="flex space-x-4 font-bold">
+       <li><a href="/"><span class="border-b-4 border-blue-500">🇦🇹</span></a></li>
+       <li><a href="/en">🇬🇧</a></li>
+     </ul>
+   </nav>
 
     {% block content %}
     {% endblock %}
