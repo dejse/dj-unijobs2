@@ -6,21 +6,39 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="../static/css/tailwind.css"/>
     <style>
+    main {
+      min-height: calc(90vh - 52px);
+    }
     </style>
   </head>
   <body class="min-h-screen bg-gray-200">
 
-   <!-- Navigation -->
-   <hr class="h-1 border border-blue-500  bg-blue-500" />
-   <nav class="flex flex-row bg-gray-900 text-white justify-between h-12 py-2 px-4">
-     <h1 class="text-lg font-bold ani"><a href="/">UniJobs</a></h1>
-     <ul class="flex space-x-4 font-bold">
-       <li><a href="/"><span class="border-b-4 border-blue-500">🇦🇹</span></a></li>
-       <li><a href="/en">🇬🇧</a></li>
-     </ul>
-   </nav>
+    <!-- Navigation -->
+    <hr class="h-1 border border-blue-500  bg-blue-500" />
+    <nav class="flex flex-row bg-gray-900 text-white justify-between h-12 py-2 px-4">
+      <h1 class="text-lg font-bold ani"><a href="/">UniJobs</a></h1>
+      <ul class="flex space-x-4 font-bold">
+        <li><a href="/"><span class="border-b-4 border-blue-500">🇦🇹</span></a></li>
+        <li><a href="/en">🇬🇧</a></li>
+      </ul>
+    </nav>
 
-    {% block content %}
-    {% endblock %}
+    <!-- Main Content Container -->
+    <main class="container w-3/4 mx-auto flex flex-col place-content-center place-items-center">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black grid grid-cols-12 text-white w-full p-3 auto-rows-auto">
+      <div class="col-start-2 col-span-10 md:col-start-2 md:col-end-4">
+        <h3 class="prose text-white font-normal">UniJobs.at</h3>
+        <p class="prose text-white font-thin">Made with ❤️✨ in Vienna</p>
+      </div>
+      <div class="row-start-2 col-start-2 col-span-10 md:row-start-1 md:col-start-5 md:col-span-5">
+        <p class="prose text-white">Link Aggregator und Suchmaschine für Jobs an österreichischen Universitäten.</p>
+      </div>
+    </footer>
+
   </body>
 </html>
