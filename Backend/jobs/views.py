@@ -18,7 +18,7 @@ def index(request):
   if htmx:
     return render(request, "components/fragments/hx_table.html", { "jobs": page_obj })
   else:
-    return render(request, "index.html", { "jobs": page_obj })
+    return render(request, "index.html", { "jobs": page_obj, "search_input": "" })
 
 
 def search(request):
@@ -34,6 +34,6 @@ def search(request):
         | Q(uni__name_de__icontains=s) 
       ))
     data = data.order_by("deadline")
-    return render(request, "index.html", { "jobs": data })
+    return render(request, "index.html", { "jobs": data, "search_input": q })
   else: 
     return redirect(reverse("jobs.index"))
