@@ -14,7 +14,11 @@ def index(request):
   paginator = Paginator(jobs, 50)
   page_number = request.GET.get("page", 1)
   page_obj = paginator.get_page(page_number)
-  return render(request, "index.html", { "jobs": page_obj })
+  htmx = bool(request.headers.get("Hx-Request", False))
+  if htmx:
+    return render(request, "components/fragments/hx_table.html", { "jobs": page_obj })
+  else:
+    return render(request, "index.html", { "jobs": page_obj })
 
 
 def search(request):
