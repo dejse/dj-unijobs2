@@ -1,0 +1,19 @@
+<!-- Jobs Table-->
+<section id="JobsPane" class="w-full mx-auto">
+{% for j in jobs %}
+  <div class="w-full mx-auto py-2">
+    <h1 class="prose-md text-blue-500 font-semibold hover:text-blue-700">
+    <a rel="external" href="<?= $row['href']; ?>">{{ j.title }}</a></h1>
+    <p class="prose-md">{{ j.uni.name_de }} | {{ j.institute }}</p>
+    <p class="prose text-gray-600 font-light">Bewerben bis: {{ j.deadline }}</p>
+    <hr class="border border-gray-300 my-1">
+  </div>
+{% endfor %}
+
+  <!-- Pagination -->
+  <div class="flex flex-col items-center content-center my-1" id="Paginate">
+    <p class="prose my-1"><?= min($limit*$current_page, $total) . " von " . $total . " Jobs";?></p>  
+    <a hx-get="<?= $next_page_url; ?>" hx-trigger="click" hx-target="#Paginate" hx-swap="outerHTML"
+      class="border-2 border-blue-500 rounded p-2 text-blue-600 semibold my-2 hover:border-blue-300 hover:text-blue-300 ani">Mehr Jobs</a>  
+  </div>
+</section>

@@ -1,11 +1,10 @@
-<form action="{% url 'jobs.suche' %}" method="GET">
-  <input type="text" id="q" name="q" placeholder="z.B. Universitätsassistent Wien...">
-  <button type="submit" class="">🔍</button>
-</form>
+{% extends "_layout.html" %}
 
-<div>
-{% for j in jobs %}
-  <p>{{ j.title }}</p>
-{% endfor %}
-</div>
-<a href="">more</a>
+{% block content %}
+
+{% include "components/hero.html" %}
+
+{% include "components/table.html" %}
+
+
+{% endblock %}

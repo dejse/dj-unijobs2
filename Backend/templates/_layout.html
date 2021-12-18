@@ -1,15 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html language="de">
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="../static/css/tailwind.css"/>
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}"/>
     <style>
     main {
       min-height: calc(90vh - 52px);
     }
     </style>
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
   </head>
   <body class="min-h-screen bg-gray-200">
 
