@@ -83,7 +83,7 @@ def scrap_en():
 # Write German JSON
 file = data_path / "wu-de.json"
 data = scrap()
-JSON = json.dumps(data, ensure_ascii=False).encode("utf-8")
+JSON = json.dumps(data, ensure_ascii=False, indent=4).encode("utf-8")
 with file.open(mode="w+b") as f: 
   f.write(JSON)
 
@@ -91,6 +91,6 @@ with file.open(mode="w+b") as f:
 # Write English JSON
 file = data_path / "wu-en.json"
 data = scrap_en()
-JSON = json.dumps(data, ensure_ascii=False).encode("utf-8")
+JSON = json.dumps(data, ensure_ascii=False, indent=4).encode("utf-8")
 with file.open(mode="w+b") as f: 
   f.write(JSON)

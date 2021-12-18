@@ -33,7 +33,7 @@ for f in p.iterdir():
 
 # Write JSON File
 with file.open(mode="w+b") as f:
-  data = json.dumps(data, ensure_ascii=False).encode("utf8")
+  data = json.dumps(data, ensure_ascii=False, indent=4).encode("utf8")
   f.write(data)
   pprint(f"Created: {file.name}")
 
