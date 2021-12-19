@@ -5,7 +5,7 @@ from .models import Job, Uni
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.utils.html import escape
-from django.utils.translation import get_language
+from django.utils.translation import get_language, activate
 from pprint import pprint
 
 
@@ -20,12 +20,14 @@ def index(request):
   jobs = Job.objects.filter(lang=language).order_by("deadline")
   paginator = Paginator(jobs, 50)
   page_obj = paginator.get_page(page_number)
-  
+
   # response
   if htmx:
-    return render(request, "components/fragments/hx_table.html", { "jobs": page_obj })
+    response = render(request, "components/fragments/hx_table.html", { "jobs": page_obj })
   else:
-    return render(request, "index.html", { "jobs": page_obj, "search_input": "" })
+    response = render(request, "index.html", { "jobs": page_obj, "search_input": "" })
+  response.set_cookie("django-language", language)
+  return response
 
 
 def search(request):

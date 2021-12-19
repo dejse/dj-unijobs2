@@ -21,12 +21,13 @@
     <nav class="flex flex-row bg-gray-900 text-white justify-between h-12 py-2 px-4">
       <h1 class="text-lg font-bold ani"><a href="/">UniJobs</a></h1>
       <ul class="flex space-x-4 font-bold">
-        {% if get_current_language == "de" %}
-        <li><a href="/"><span class="border-b-4 border-blue-500">🇦🇹</span></a></li>
-        <li><a href="/en">🇬🇧</a></li>
-        {% else %}
-        <li><a href="/">🇦🇹</a></li>
+        {% get_current_language as LANGUAGE_CODE %}
+        {% if LANGUAGE_CODE == "en" %}
+        <li><a href="/de">🇦🇹</a></li>
         <li><a href="/en"><span class="border-b-4 border-blue-500">🇬🇧</span></a></li>
+        {% else %}
+        <li><a href="/de"><span class="border-b-4 border-blue-500">🇦🇹</span></a></li>
+        <li><a href="/en">🇬🇧</a></li>
         {% endif %}
       </ul>
     </nav>
