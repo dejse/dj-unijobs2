@@ -19,7 +19,7 @@
     <!-- Navigation -->
     <hr class="h-1 border border-blue-500  bg-blue-500" />
     <nav class="flex flex-row bg-gray-900 text-white justify-between h-12 py-2 px-4">
-      <h1 class="text-lg font-bold ani"><a href="/">UniJobs</a></h1>
+      <h1 class="text-lg font-bold ani"><a href="{% url 'jobs:index' %}">UniJobs</a></h1>
       <ul class="flex space-x-4 font-bold">
         {% get_current_language as LANGUAGE_CODE %}
         {% if LANGUAGE_CODE == "en" %}

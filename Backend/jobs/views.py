@@ -26,7 +26,7 @@ def index(request):
     response = render(request, "components/fragments/hx_table.html", { "jobs": page_obj })
   else:
     response = render(request, "index.html", { "jobs": page_obj, "search_input": "" })
-  response.set_cookie("django-language", language)
+  response.set_cookie("django-language", language, max_age = 60*60*24*365, secure=True, httponly=True)
   return response
 
 
