@@ -1,7 +1,8 @@
 from django.urls import path 
 from . import views 
 
+app_name="jobs"
 urlpatterns = [
-    path("suche/", views.search, name = "jobs.suche"),
-    path("", views.index, name = "jobs.index")
+    path("suche/", views.search, name = "search"),
+    path("", views.index, name = "index")
 ]

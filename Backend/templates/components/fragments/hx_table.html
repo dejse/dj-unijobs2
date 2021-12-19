@@ -1,9 +1,10 @@
+{% load i18n %}
 {% for j in jobs %}
   <div class="w-full mx-auto py-2">
     <h1 class="prose-md text-blue-500 font-semibold hover:text-blue-700">
     <a rel="external" href="{{ j.href }}">{{ j.title }}</a></h1>
     <p class="prose-md">{{ j.uni.name_de }} | {{ j.institute }}</p>
-    <p class="prose text-gray-600 font-light">Bewerben bis: {{ j.deadline }}</p>
+    <p class="prose text-gray-600 font-light">{% translate "Bewerben bis:" %} {{ j.deadline }}</p>
     <hr class="border border-gray-300 my-1">
   </div>
 {% endfor %}
@@ -11,8 +12,8 @@
 {% if jobs.has_next %}
   <!-- Pagination -->
   <div class="flex flex-col items-center content-center my-1" id="Paginate">
-    <p class="prose my-1">{{ jobs.end_index }} von {{ jobs.paginator.count }} Jobs</p>  
+    <p class="prose my-1">{{ jobs.end_index }} / {{ jobs.paginator.count }} Jobs</p>  
     <button type="button" hx-get="?page={{ jobs.next_page_number }}" hx-trigger="click" hx-target="#Paginate" hx-swap="outerHTML"
-      class="border-2 border-blue-500 rounded p-2 text-blue-600 semibold my-2 hover:border-blue-300 hover:text-blue-300 ani">Mehr Jobs</button>  
+      class="border-2 border-blue-500 rounded p-2 text-blue-600 semibold my-2 hover:border-blue-300 hover:text-blue-300 ani">{% translate "Mehr Jobs" %}</button>  
   </div>
 {% endif %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-19 10:53+0100\n"
+"POT-Creation-Date: 2021-12-19 10:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,14 +30,22 @@ msgstr "English"
 msgid "Link Aggregator und Suchmaschine für Jobs an österreichischen Universitäten."
 msgstr "Link Aggregator and Search Engine for Austrian University Jobs."
 
-#: .\templates\components\hero.html:2
+#: .\templates\components\fragments\hx_table.html:7
+msgid "Bewerben bis:"
+msgstr "Apply until:"
+
+#: .\templates\components\fragments\hx_table.html:17
+msgid "Mehr Jobs"
+msgstr "More Jobs"
+
+#: .\templates\components\hero.html:3
 msgid "Finde hier deinen neuen "
 msgstr "Find your next "
 
-#: .\templates\components\hero.html:2
+#: .\templates\components\hero.html:3
 msgid "Unijob!"
 msgstr "University Job!"
 
-#: .\templates\components\hero.html:6
+#: .\templates\components\hero.html:7
 msgid "z.B. Universitätsassistent Wien..."
 msgstr "e.g. Pre-Doc Vienna"

@@ -36,4 +36,4 @@ def search(request):
     data = data.order_by("deadline")
     return render(request, "index.html", { "jobs": data, "search_input": q })
   else: 
-    return redirect(reverse("jobs.index"))
+    return redirect(reverse("jobs:index"))
