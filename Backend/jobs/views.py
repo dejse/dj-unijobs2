@@ -5,16 +5,23 @@ from .models import Job, Uni
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.utils.html import escape
+from django.utils.translation import get_language
 from pprint import pprint
 
 
 # Create your views here.
 def index(request):
-  jobs = Job.objects.filter(lang="de").order_by("deadline")
-  paginator = Paginator(jobs, 50)
+  # request parameters
+  language = get_language()
   page_number = request.GET.get("page", 1)
-  page_obj = paginator.get_page(page_number)
   htmx = bool(request.headers.get("Hx-Request", False))
+
+  # ORM
+  jobs = Job.objects.filter(lang=language).order_by("deadline")
+  paginator = Paginator(jobs, 50)
+  page_obj = paginator.get_page(page_number)
+  
+  # response
   if htmx:
     return render(request, "components/fragments/hx_table.html", { "jobs": page_obj })
   else:
@@ -22,10 +29,14 @@ def index(request):
 
 
 def search(request):
+  # request parameters
+  language = get_language()
   q = escape(request.GET.get("q", "").strip())
   search_params = q.lower().split(" ")
+
+  # not more than three words
   if len(q) > 0 and len(search_params) <= 3: 
-    qs = Job.objects.filter(lang="de").select_related("uni")
+    qs = Job.objects.filter(lang=language).select_related("uni")
     data = Job.objects.none()
     for s in search_params:
       data = data.union(qs.filter(
