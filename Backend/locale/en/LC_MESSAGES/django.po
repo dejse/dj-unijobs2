@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-19 10:53+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\Backend\settings.py:113
+msgid "German"
+msgstr "German"
+
+#: .\Backend\settings.py:114
+msgid "English"
+msgstr "English"
+
+#: .\templates\_layout.html:42
+msgid "Link Aggregator und Suchmaschine für Jobs an österreichischen Universitäten."
+msgstr "Link Aggregator and Search Engine for Austrian University Jobs."
+
+#: .\templates\components\hero.html:2
+msgid "Finde hier deinen neuen "
+msgstr "Find your next "
+
+#: .\templates\components\hero.html:2
+msgid "Unijob!"
+msgstr "University Job!"
+
+#: .\templates\components\hero.html:6
+msgid "z.B. Universitätsassistent Wien..."
+msgstr "e.g. Pre-Doc Vienna"
