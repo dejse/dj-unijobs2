@@ -3,6 +3,7 @@ module.exports = {
   theme: {
     extend: {},
   },
+  mode: ["jit"],
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
