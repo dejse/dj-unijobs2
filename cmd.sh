@@ -15,3 +15,5 @@ pnpx tailwindcss -i Backend/static/css/styles.css -o Backend/static/css/tailwind
 
 django-admin makemessages -l en
 django-admin compilemessages
+
+python manage.py test --keepdb
