@@ -23,8 +23,8 @@
       <ul class="flex space-x-4 font-bold">
         {% get_current_language as LANGUAGE_CODE %}
         {% if LANGUAGE_CODE == "en" %}
-        <li><a href="/de">🇦🇹</a></li>
-        <li><a href="/en"><span class="border-b-4 border-blue-500">🇬🇧</span></a></li>
+        <li><a href="/de" aria-label="Deutsch">🇦🇹</a></li>
+        <li><a href="/en" aria-label="English"><span class="border-b-4 border-blue-500">🇬🇧</span></a></li>
         {% else %}
         <li><a href="/de"><span class="border-b-4 border-blue-500">🇦🇹</span></a></li>
         <li><a href="/en">🇬🇧</a></li>

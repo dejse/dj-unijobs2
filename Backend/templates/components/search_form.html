@@ -3,9 +3,9 @@
 <form action="{% url 'jobs:search' %}" method="POST" class="flex flex-col md:flex-row gap-2 w-11/12 lg:w-7/12 mt-6 mb-20">
   {% csrf_token %}
   <input type="text" class="flex-1 p-3 text-blue-600 font-semibold" id="job" name="job" 
-    placeholder="{% translate 'z.B. Universitätsassistent...' %}" value="{{ form.job.value }}">
+    placeholder="{% translate 'z.B. Universitätsassistent...' %}" value="{{ form.job.value }}" aria-label="Job">
   <input type="text" class="flex-1 p-3 text-blue-600 font-semibold" id="uni" name="uni" 
-    placeholder="{% translate 'Institut/Universität' %}" value="{{ form.uni.value }}">
-  <button type="submit" class="border border-blue-700 w-12 p-2 bg-blue-200 hover:bg-blue-300">🔍</button>
+    placeholder="{% translate 'Institut/Universität' %}" value="{{ form.uni.value }}" aria-label="Uni">
+  <button type="submit" class="border border-blue-700 w-12 p-2 bg-blue-200 hover:bg-blue-300" aria-label="Surche/Search">🔍</button>
 </form>
 
