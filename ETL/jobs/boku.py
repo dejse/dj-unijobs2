@@ -10,7 +10,7 @@ data_path = Path("./ETL/data").resolve()
 def scrap():
   data = list()
   with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False, slow_mo=50, args=["--lang=de-DE,de", "--start-maximized"])
+    browser = p.chromium.launch(headless=False, slow_mo=50, args=["--lang=de-DE,de", "--start-maximized"], devtools=True)
     context = browser.new_context(locale="de-DE", timezone_id="Europe/Berlin", viewport={ "width": 1280, "height": 1024 })
     page = context.new_page()
 
@@ -20,17 +20,18 @@ def scrap():
     data = page.eval_on_selector_all("article", 
     """
     arr => {
-      let jobTitles = [...arr.querySelectorAll("strong")].map(e => e.textContent);
-      let hrefs = [...arr.querySelectorAll("strong > a")].map(e => e.href);
-      let institutes = [...arr.querySelectorAll("section > p")].map(e => e.textContent)
+      let jobTitles = [...document.querySelectorAll("strong")].map(e => e.textContent);
+      let hrefs = [...document.querySelectorAll("strong > a")].map(e => e.href);
+      let institutes = [...document.querySelectorAll("article > section > p")].map(e => e.textContent)
         .filter(e => /H[0-9]{3,4}/.test(e)).map(e => {
           let H = /H[0-9]{3,4}/.exec(e).index;
-          return e.substring(H, e.length);
+          let inst = e.substring(H, e.length)
+          return inst.substring(0, 100);
         });
-      let deadlines = [...arr.querySelectorAll("section > p")].map(e => e.textContent)
+      let deadlines = [...document.querySelectorAll("article > section > p")].map(e => e.textContent)
         .filter(e => /Bewerbungsfrist|Deadline/.test(e)).map(e => e.split(": ")[1]);
 
-      deadlines = deadline.map(e => {
+      deadlines = deadlines.map(e => {
         let germanDateFormat = /\d{2}\.\d{2}\.\d{4}/.test(e);
         if (germanDateFormat === true) {
           return e;
@@ -58,7 +59,7 @@ def scrap():
     let jobsData = [];
     for (let i = 0; i < jobTitles.length; i++) {
       let job = {
-        jobsTitle: jobTitles[i],
+        jobTitle: jobTitles[i],
         href: hrefs[i],
         institute: institutes[i], 
         deadline: deadlines[i]
@@ -75,6 +76,6 @@ def scrap():
 # Write German JSON
 file = data_path / "boku-de.json"
 data = scrap()
-JSON = json.dumps(data, ensure_ascii=False, indent=4).encode("utf-8")
+JSON = json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
 with file.open(mode="w+b") as f: 
   f.write(JSON)
