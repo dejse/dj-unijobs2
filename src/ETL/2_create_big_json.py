@@ -34,7 +34,7 @@ for f in p.iterdir():
       data.extend(JSON)
 
 # Write JSON File
-with file.open(mode="w+b") as f:
+with file.open(mode="w+b", encoding="utf8") as f:
   data = json.dumps(data, ensure_ascii=False, indent=4).encode("utf8")
   f.write(data)
   pprint(f"Created: {file.name}")

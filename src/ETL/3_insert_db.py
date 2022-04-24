@@ -1,27 +1,25 @@
 import sqlite3
 import json
 import datetime
-import aiosql
 from pathlib import Path 
 from pprint import pprint
 
 pprint(f"=== Running: 3_insert_db.py ===")
 
 # Files
-insert_sql = Path("./src/db/insert.sql")
-sqlite_path = Path("./src/db/db.sqlite")
+sqlite_path = Path("./src/Backend/db.sqlite3")
 data_file = Path("./src/ETL/data/_data.json")
 
 # Load JSON
-with data_file.open(mode="r+b") as f:
+with data_file.open(mode="r+b", encoding="utf8") as f:
   data = json.load(f)
 
 # DB Stuff
 con = sqlite3.connect(sqlite_path)
-queries = aiosql.from_path(insert_sql, "sqlite3")
+c = con.cursor()
 
 # Count jobs
-count = queries.count_jobs(con)
+count = c.execute("select count(*) from jobs_job;").fetchone()
 pprint(f"# Sqlite: Rows in jobs table: {count}")
 
 # Insert Jobs Data
@@ -30,16 +28,33 @@ for e in data:
   e["created"] = today
   e["updated"] = today
 
-queries.delete_jobs(con)
+c.execute("delete from jobs_job;")
 pprint(f"# Sqlite: Deleted Entries from jobs table")
 
-queries.bulk_insert_jobs(con, data)
+c.executemany("""
+insert into jobs_job(title, href, institute, deadline, lang, uni_id, created_at, updated_at) 
+values (:title, :href, :institute, :iso, :language, :uni, :created, :updated);
+""", data)
 pprint(f"# Sqlite: Inserted Entries in jobs table")
 
 # Count jobs
-count = queries.count_jobs(con)
+count = c.execute("select count(*) from jobs_job;").fetchone()
 pprint(f"# Sqlite: Rows in jobs table: {count}")
 
 # Save, Close
 con.commit()
 con.close()
+
+
+
+"""
+-- name: count-jobs$
+select count(*) from jobs;
+
+-- name: delete-jobs!
+delete from jobs;
+
+-- name: bulk-insert-jobs*!
+insert into jobs(title, href, institute, deadline, language, uni_id, created, updated) 
+values (:title, :href, :institute, :iso, :language, :uni, :created, :updated);
+"""
