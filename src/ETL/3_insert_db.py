@@ -1,6 +1,6 @@
 import sqlite3
 import json
-import datetime
+from datetime import datetime
 from pathlib import Path 
 from pprint import pprint
 
@@ -11,19 +11,33 @@ sqlite_path = Path("./src/Backend/db.sqlite3")
 data_file = Path("./src/ETL/data/_data.json")
 
 # Load JSON
-with data_file.open(mode="r+b", encoding="utf8") as f:
+with data_file.open(mode="r+b") as f:
   data = json.load(f)
 
 # DB Stuff
 con = sqlite3.connect(sqlite_path)
 c = con.cursor()
 
+# Rebuild uni
+c.executescript(
+  """
+  delete from jobs_uni;
+  begin transaction;
+  insert into jobs_uni values 
+    (null, 'tuw', 'Technische Universität Wien', 'Vienna University of Technology', "Wien", "Vienna"),
+    (null, 'uw', 'Universität Wien', 'University of Vienna', "Wien", "Vienna"),
+    (null, 'wu', 'Wirtschaftsuniversität Wien', 'Vienna University of Economics and Business', "Wien", "Vienna");
+  commit;
+  """
+)
+pprint(f"# Sqlite: Rebuild jobs_uni table")
+
 # Count jobs
-count = c.execute("select count(*) from jobs_job;").fetchone()
+count = c.execute("select count(*) from jobs_job;").fetchone()[0]
 pprint(f"# Sqlite: Rows in jobs table: {count}")
 
 # Insert Jobs Data
-today = datetime.datetime.today().strftime("%Y-%m-%d")
+today = datetime.today().strftime("%Y-%m-%d")
 for e in data:
   e["created"] = today
   e["updated"] = today
@@ -38,23 +52,9 @@ values (:title, :href, :institute, :iso, :language, :uni, :created, :updated);
 pprint(f"# Sqlite: Inserted Entries in jobs table")
 
 # Count jobs
-count = c.execute("select count(*) from jobs_job;").fetchone()
+count = c.execute("select count(*) from jobs_job;").fetchone()[0]
 pprint(f"# Sqlite: Rows in jobs table: {count}")
 
 # Save, Close
 con.commit()
 con.close()
-
-
-
-"""
--- name: count-jobs$
-select count(*) from jobs;
-
--- name: delete-jobs!
-delete from jobs;
-
--- name: bulk-insert-jobs*!
-insert into jobs(title, href, institute, deadline, language, uni_id, created, updated) 
-values (:title, :href, :institute, :iso, :language, :uni, :created, :updated);
-"""
