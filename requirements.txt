@@ -1,0 +1,9 @@
+asgiref==3.4.1
+Django==4.0.4
+greenlet==1.1.2
+playwright==1.21.0
+pyee==8.1.0
+python-dotenv==0.19.2
+sqlparse==0.4.2
+tzdata==2021.5
+websockets==10.1

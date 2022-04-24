@@ -1,4 +1,5 @@
 source env/Scripts/activate
+pip freeze > requirements.txt
 
 # ETL
 python src/ETL/1_run_scrappers.py
