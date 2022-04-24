@@ -1,17 +1,17 @@
-env\Scripts\activate
+source env/Scripts/activate
 
 # ETL
-python ETL\1_run_scrappers.py
-python ETL\2_create_big_json.py
-python ETL\3_insert_db.py
+python src/ETL/1_run_scrappers.py
+python src/ETL/2_create_big_json.py
+python src/ETL/3_insert_db.py
 
-# Backend
-cd Backend 
+# Django
+cd src/Backend 
 python manage.py runserver
 python manage.py makemigrations jobs
 python manage.py migrate
 
-pnpx tailwindcss -i Backend/static/css/styles.css -o Backend/static/css/tailwind.css --watch
+pnpx tailwindcss -i src/Backend/static/css/styles.css -o src/Backend/static/css/tailwind.css --watch
 
 django-admin makemessages -l en
 django-admin compilemessages

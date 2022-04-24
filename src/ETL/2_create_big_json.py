@@ -6,7 +6,7 @@ import json
 pprint(f"=== Running: 2_create_big_json.py ===")
 
 # Files
-p = Path("./ETL/data").resolve()
+p = Path("./src/ETL/data").resolve()
 file = p / "_data.json"
 data = list()
 
@@ -27,7 +27,9 @@ for f in p.iterdir():
       for d in JSON:
         d["uni"] = name 
         d["language"] = language
-        d["iso"] = datetime.strptime(d["deadline"], "%d.%m.%Y").strftime("%Y-%m-%d")
+        d["iso"] = datetime.today().strftime("%Y-%m-%d")
+        if d["deadline"] != None: 
+          d["iso"] = datetime.strptime(d["deadline"], "%d.%m.%Y").strftime("%Y-%m-%d")
 
       data.extend(JSON)
 

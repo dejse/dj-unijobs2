@@ -1,14 +1,13 @@
-from pprint import pprint
-from pathlib import Path
-import json
 from datetime import datetime
-#from datetime import strptime, strftime
 from playwright.sync_api import sync_playwright
+from bs4 import BeautifulSoup
+from time import sleep
+import re
+from helpers import save_file
 
-data_path = Path("./ETL/data").resolve()
 
-# German Scrapper
-def scrap():
+# German
+def scrap_de():
   data = list()
   with sync_playwright() as p:
     browser = p.chromium.launch(headless=False, slow_mo=50, args=["--lang=de-DE,de", "--start-maximized"])
@@ -23,11 +22,11 @@ def scrap():
     arr => { 
       let jobData = [];
       arr.forEach(e => {
-        let jobTitle = e.querySelectorAll("td.real_table_col1 > a")[0].textContent.trim();
+        let title = e.querySelectorAll("td.real_table_col1 > a")[0].textContent.trim();
         let href = "https://recruiting.wu.ac.at/?" + e.querySelectorAll("td.real_table_col1 > a")[0].href.trim().split("?")[1];
         let institute = e.querySelectorAll("td.real_table_col2")[0].textContent.trim();
         let deadline = null;
-        jobData.push({ jobTitle, href, institute, deadline });
+        jobData.push({ title, href, deadline, institute });
       });
       return jobData;
     }
@@ -35,6 +34,14 @@ def scrap():
     )
 
     for i in range(len(data)):
+      # TODO: Remove Hack when no deadline
+      blacklist = [
+        "https://recruiting.wu.ac.at/?yid=1353",
+        "https://recruiting.wu.ac.at/?yid=1354",
+        "https://recruiting.wu.ac.at/?yid=1343"
+      ]
+      if data[i].get("href") in blacklist:
+        continue
       page.goto(data[i].get("href"), wait_until="domcontentloaded")
       deadline = page.text_content("xpath=//li[contains(., 'Publizierung bis') or contains(., 'published till')]")
       data[i]["deadline"] = deadline.split(":")[1].strip()
@@ -43,7 +50,7 @@ def scrap():
   return data
 
 
-# English Scrapper
+# English
 def scrap_en():
   data = list()
   with sync_playwright() as p:
@@ -59,11 +66,11 @@ def scrap_en():
     arr => { 
       let jobData = [];
       arr.forEach(e => {
-        let jobTitle = e.querySelectorAll("td.real_table_col1 > a")[0].textContent.trim();
+        let title = e.querySelectorAll("td.real_table_col1 > a")[0].textContent.trim();
         let href = "https://recruiting.wu.ac.at/eng/?" + e.querySelectorAll("td.real_table_col1 > a")[0].href.trim().split("?")[1];
         let institute = e.querySelectorAll("td.real_table_col2")[0].textContent.trim();
         let deadline = null;
-        jobData.push({ jobTitle, href, institute, deadline });
+        jobData.push({ title, href, deadline, institute });
       });
       return jobData;
     }
@@ -71,6 +78,14 @@ def scrap_en():
     )
 
     for i in range(len(data)):
+      # TODO: Remove Hack when no deadline
+      blacklist = [
+        "https://recruiting.wu.ac.at/eng/?yid=1353",
+        "https://recruiting.wu.ac.at/eng/?yid=1354",
+        "https://recruiting.wu.ac.at/eng/?yid=1343"
+      ]
+      if data[i].get("href") in blacklist:
+        continue
       page.goto(data[i].get("href"), wait_until="domcontentloaded")
       deadline = page.text_content("xpath=//li[contains(., 'Publizierung bis') or contains(., 'published till')]")
       deadline = deadline.split(":")[1].strip()
@@ -80,17 +95,10 @@ def scrap_en():
   return data
 
 
-# Write German JSON
-file = data_path / "wu-de.json"
-data = scrap()
-JSON = json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
-with file.open(mode="w+b") as f: 
-  f.write(JSON)
+# Main 
+if __name__ == "__main__":
+  data = scrap_de()
+  save_file(data, filename="wu-de.json")
 
-
-# Write English JSON
-file = data_path / "wu-en.json"
-data = scrap_en()
-JSON = json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
-with file.open(mode="w+b") as f: 
-  f.write(JSON)
+  data = scrap_en()
+  save_file(data, filename="wu-en.json")

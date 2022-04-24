@@ -1,15 +1,15 @@
 import sqlite3
 import json
 import datetime
+import aiosql
 from pathlib import Path 
 from pprint import pprint
 
 pprint(f"=== Running: 3_insert_db.py ===")
 
 # Files
-p = Path("./ETL/data").resolve()
-file = p / "_data.json"
-sqlite_path = Path("./Backend/db.sqlite3")
+file = Path("./src/ETL/data/_data.json")
+sqlite_path = Path("./src/db.sqlite")
 
 # Load JSON
 with file.open(mode="r+b") as f:
