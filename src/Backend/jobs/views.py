@@ -15,7 +15,7 @@ def index(request):
   # request parameters
   language = get_language()
   page_number = request.GET.get("page", 1)
-  htmx = bool(request.headers.get("Hx-Request", False))
+  is_htmx = bool(request.headers.get("Hx-Request", False))
 
   # ORM
   jobs = Job.objects.filter(lang=language).order_by("deadline")
@@ -23,11 +23,10 @@ def index(request):
   page_obj = paginator.get_page(page_number)
 
   # response
-  if htmx:
+  if is_htmx:
     response = render(request, "components/fragments/hx_table.html", { "jobs": page_obj })
   else:
-    response = render(request, "index.html", { "jobs": page_obj, "search_input": "" })
-  response.set_cookie("django-language", language, max_age = 60*60*24*365, secure=True, httponly=True)
+    response = render(request, "index.html", { "jobs": page_obj })
   return response
 
 
@@ -35,6 +34,7 @@ def search(request):
   # request parameters
   language = get_language()
   
+  # form
   form = SearchForm(request.POST or None)
   if form.is_valid():
     job = form.cleaned_data["job"]
@@ -45,8 +45,6 @@ def search(request):
     else:
       # Filter Queryset
       qs = Job.objects.filter(lang=language).select_related("uni").order_by("deadline")
-      pprint(job)
-      pprint(uni)
       if len(job) > 0: 
         qs = qs.filter(Q(title__icontains=job))
       if len(uni) > 0:
