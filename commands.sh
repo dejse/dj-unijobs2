@@ -1,4 +1,4 @@
-source env/Scripts/activate
+. env/Scripts/activate
 pip freeze > requirements.txt
 
 # ETL
